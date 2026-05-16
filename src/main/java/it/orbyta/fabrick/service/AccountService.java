@@ -16,11 +16,11 @@ public class AccountService {
     private FabrickClient fabrickClient;
 
 
-    public BalanceResponse getBalance(Long accountId) {
+    public BalanceResponse getBalance(String accountId) {
         return fabrickClient.getBalance(accountId);
     }
 
-    public MoneyTransferResponse createMoneyTransfer(Long accountId, MoneyTransferRequest request) {
+    public MoneyTransferResponse createMoneyTransfer(String accountId, MoneyTransferRequest request) {
         return fabrickClient.createMoneyTransfer(accountId, request);
     }
 }

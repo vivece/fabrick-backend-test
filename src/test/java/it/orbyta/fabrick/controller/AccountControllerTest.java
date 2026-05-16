@@ -3,7 +3,6 @@ package it.orbyta.fabrick.controller;
 import it.orbyta.fabrick.dto.response.BalanceResponse;
 import it.orbyta.fabrick.service.AccountService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,7 +27,7 @@ class AccountControllerTest {
     @Test
     void getBalance_shouldReturn200() throws Exception {
 
-        Long accountId = 1L;
+        String accountId = "1";
 
         BalanceResponse response = new BalanceResponse();
         response.setBalance(BigDecimal.valueOf(100));
@@ -36,7 +35,7 @@ class AccountControllerTest {
         Mockito.when(accountService.getBalance(accountId))
                 .thenReturn(response);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/accounts/"+ accountId + "/balance"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/accounts/" + accountId + "/balance"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.balance").value(100));
     }

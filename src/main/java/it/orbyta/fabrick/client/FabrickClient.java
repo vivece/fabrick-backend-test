@@ -29,12 +29,12 @@ public class FabrickClient {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public BalanceResponse getBalance(Long accountId) {
+    public BalanceResponse getBalance(String accountId) {
         log.info("Calling Fabrick getBalance. accountId={}", accountId);
         String url = getBaseUrl() + "/accounts/" + accountId + "/balance";
         try {
             HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
-            ResponseEntity<BalanceResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<BalanceResponse>() {
+            ResponseEntity<BalanceResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
             });
             return responseEntity.getBody();
         } catch (HttpStatusCodeException ex) {
@@ -42,12 +42,12 @@ public class FabrickClient {
         }
     }
 
-    public MoneyTransferResponse createMoneyTransfer(Long accountId, MoneyTransferRequest request) {
+    public MoneyTransferResponse createMoneyTransfer(String accountId, MoneyTransferRequest request) {
         log.info("Calling Fabrick createMoneyTransfer. accountId={}, amount={}, currency={}", accountId, request.getAmount(), request.getCurrency());
         String url = getBaseUrl() + "/accounts/" + accountId + "/payments/money-transfers";
         try {
             HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
-            ResponseEntity<MoneyTransferResponse> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<MoneyTransferResponse>() {
+            ResponseEntity<MoneyTransferResponse> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
             });
             return responseEntity.getBody();
         } catch (HttpStatusCodeException ex) {
