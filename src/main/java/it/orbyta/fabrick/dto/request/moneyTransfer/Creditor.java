@@ -11,7 +11,15 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class Creditor {
+
+    @NotBlank(message = "creditor.name is required")
+    @Size(max = 70, message = "creditor.name must be at most 70 characters")
     private String name;
+
+    @Valid
+    @NotNull(message = "creditor.account is required")
     private Account account;
+
+    @Valid
     private Address address;
 }
