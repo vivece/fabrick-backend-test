@@ -9,10 +9,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Documented
-@Constraint(validatedBy = MoneyTransferRequestValidator.class)
+@Constraint(validatedBy = ValidatorMoneyTransferRequestImpl.class)
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidMoneyTransferRequest {
+public @interface ValidatorMoneyTransferRequest {
     String message() default "money transfer request non valida";
 
     Class<?>[] groups() default {};

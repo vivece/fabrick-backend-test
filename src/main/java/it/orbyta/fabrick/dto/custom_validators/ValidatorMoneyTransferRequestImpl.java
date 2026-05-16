@@ -5,15 +5,13 @@ import it.orbyta.fabrick.dto.request.moneyTransfer.MoneyTransferRequest;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.time.LocalDate;
 
-public class MoneyTransferRequestValidator implements ConstraintValidator<ValidMoneyTransferRequest, MoneyTransferRequest> {
-
+public class ValidatorMoneyTransferRequestImpl implements ConstraintValidator<ValidatorMoneyTransferRequest, MoneyTransferRequest> {
     @Override
     public boolean isValid(MoneyTransferRequest request, ConstraintValidatorContext context) {
+        if(!request.getIsInstant() && request.getExecutionDate() == null) {
+            return false;
+        }
         return true;
     }
-
-
-
 }

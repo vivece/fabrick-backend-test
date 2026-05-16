@@ -6,8 +6,6 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 public class NaturalPersonBeneficiary {
-
-    //TODO controllare la specifica
     @NotBlank
     private String fiscalCodeField1;
     private String fiscalCodeField2;

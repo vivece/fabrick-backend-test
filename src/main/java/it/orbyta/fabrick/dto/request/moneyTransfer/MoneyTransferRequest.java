@@ -1,7 +1,7 @@
 package it.orbyta.fabrick.dto.request.moneyTransfer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import it.orbyta.fabrick.dto.custom_validators.ValidMoneyTransferRequest;
+import it.orbyta.fabrick.dto.custom_validators.ValidatorMoneyTransferRequest;
 import it.orbyta.fabrick.dto.request.moneyTransfer.enumerations.FeeType;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@ValidMoneyTransferRequest
+@ValidatorMoneyTransferRequest(message = "executionDate is required when isInstant is false")
 public class MoneyTransferRequest {
 
     @Valid
@@ -25,7 +25,6 @@ public class MoneyTransferRequest {
 
     @NotNull(message = "executionDate is required")
     @JsonFormat(pattern = "dd-MM-yyyy")
-    //TODO implementa un custom validator "The date on which the money transfer must be executed. This field is required unless 'isInstant == true'."
     private LocalDate executionDate;
 
     @NotBlank(message = "description is required")
@@ -47,8 +46,5 @@ public class MoneyTransferRequest {
     private Boolean isInstant = Boolean.FALSE;
     private String feeType = String.valueOf(FeeType.SHA);
     private String feeAccountId;
-
-
-
 
 }
