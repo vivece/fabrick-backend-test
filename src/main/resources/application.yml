@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  datasource:
+    url: jdbc:h2:mem:fabrickdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    it.orbyta.fabrick: INFO
+    org.springframework.web.client.RestTemplate: INFO
+
+fabrick:
+  base-url: https://sandbox.platfr.io
+  auth-schema: S2S
+  api-key: ${FABRICK_API_KEY:FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP}
+  account-id: 14537780
+  api-version: v4.0
+  time-zone: Europe/Rome
