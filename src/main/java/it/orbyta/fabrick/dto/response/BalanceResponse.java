@@ -9,10 +9,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class BalanceResponse {
-
     private LocalDate date;
     private BigDecimal balance;
     private BigDecimal availableBalance;
     private String currency;
-
 }

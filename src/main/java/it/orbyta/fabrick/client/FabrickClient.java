@@ -2,7 +2,9 @@ package it.orbyta.fabrick.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.orbyta.fabrick.config.FabrickProperties;
+import it.orbyta.fabrick.dto.request.moneyTransfer.MoneyTransferRequest;
 import it.orbyta.fabrick.dto.response.BalanceResponse;
+import it.orbyta.fabrick.dto.response.moneyTransfer.MoneyTransferResponse;
 import it.orbyta.fabrick.exception.FabrickApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,19 @@ public class FabrickClient {
         try {
             HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
             ResponseEntity<BalanceResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<BalanceResponse>() {
+            });
+            return responseEntity.getBody();
+        } catch (HttpStatusCodeException ex) {
+            throw buildFabrickApiException(ex);
+        }
+    }
+
+    public MoneyTransferResponse createMoneyTransfer(Long accountId, MoneyTransferRequest request) {
+        log.info("Calling Fabrick createMoneyTransfer. accountId={}, amount={}, currency={}", accountId, request.getAmount(), request.getCurrency());
+        String url = getBaseUrl() + "/accounts/" + accountId + "/payments/money-transfers";
+        try {
+            HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
+            ResponseEntity<MoneyTransferResponse> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<MoneyTransferResponse>() {
             });
             return responseEntity.getBody();
         } catch (HttpStatusCodeException ex) {
