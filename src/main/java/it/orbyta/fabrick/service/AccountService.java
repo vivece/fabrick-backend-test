@@ -14,8 +14,6 @@ public class AccountService {
     @Autowired
     private FabrickClient fabrickClient;
 
-    @Autowired
-    private TransactionRepository transactionRepository;
 
     public BalanceResponse getBalance(Long accountId) {
         return fabrickClient.getBalance(accountId);
