@@ -2,8 +2,7 @@ package it.orbyta.fabrick.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.orbyta.fabrick.config.FabrickProperties;
-import it.orbyta.fabrick.dto.request.MoneyTransferRequest;
-import it.orbyta.fabrick.dto.response.*;
+import it.orbyta.fabrick.dto.response.BalanceResponse;
 import it.orbyta.fabrick.exception.FabrickApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
 import java.util.Collections;
 
 @Slf4j

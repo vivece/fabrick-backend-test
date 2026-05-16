@@ -3,20 +3,18 @@ package it.orbyta.fabrick.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import it.orbyta.fabrick.dto.request.MoneyTransferRequest;
-import it.orbyta.fabrick.dto.response.*;
-import it.orbyta.fabrick.entity.TransactionEntity;
+import it.orbyta.fabrick.dto.response.BalanceResponse;
 import it.orbyta.fabrick.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.zalando.problem.Problem;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
