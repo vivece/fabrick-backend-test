@@ -43,12 +43,11 @@ public class FabrickClient {
     }
 
     public MoneyTransferResponse createMoneyTransfer(String accountId, MoneyTransferRequest request) {
-        log.info("Calling Fabrick createMoneyTransfer. accountId={}, amount={}, currency={}", accountId, request.getAmount(), request.getCurrency());
+        log.info("Calling Fabrick createMoneyTransfer");
         String url = getBaseUrl() + "/accounts/" + accountId + "/payments/money-transfers";
         try {
-            HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
-            ResponseEntity<MoneyTransferResponse> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
-            });
+            HttpEntity<Object> httpEntity = new HttpEntity<>(request, buildHeaders());
+            ResponseEntity<MoneyTransferResponse> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {});
             return responseEntity.getBody();
         } catch (HttpStatusCodeException ex) {
             throw buildFabrickApiException(ex);

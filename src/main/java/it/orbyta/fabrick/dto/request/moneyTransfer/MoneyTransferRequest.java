@@ -24,7 +24,7 @@ public class MoneyTransferRequest {
     private Creditor creditor;
 
     @NotNull(message = "executionDate is required")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate executionDate;
 
     @NotBlank(message = "description is required")
