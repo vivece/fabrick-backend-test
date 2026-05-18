@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.orbyta.fabrick.config.FabrickProperties;
 import it.orbyta.fabrick.dto.request.moneyTransfer.MoneyTransferRequest;
 import it.orbyta.fabrick.dto.response.BalanceResponse;
+import it.orbyta.fabrick.dto.response.FabrickResponse;
 import it.orbyta.fabrick.dto.response.transactions.TransactionsResponse;
 import it.orbyta.fabrick.dto.response.moneyTransfer.MoneyTransferResponse;
 import it.orbyta.fabrick.exception.FabrickApiException;
@@ -58,7 +59,7 @@ public class FabrickClient {
     }
 
 
-    public TransactionsResponse getTransactions(String accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
+    public FabrickResponse<TransactionsResponse> getTransactions(String accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
         log.info("Calling Fabrick getTransactions fromAccountingDate={}, toAccountingDate={}", fromAccountingDate, toAccountingDate);
         String url = UriComponentsBuilder.fromHttpUrl(getBaseUrl() + "/accounts/" + accountId + "/transactions")
                 .queryParam("fromAccountingDate", fromAccountingDate)
@@ -66,7 +67,7 @@ public class FabrickClient {
                 .toUriString();
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
-        ResponseEntity<TransactionsResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {});
+        ResponseEntity<FabrickResponse<TransactionsResponse>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {});
 
         return responseEntity.getBody();
     }

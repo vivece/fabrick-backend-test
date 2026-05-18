@@ -3,6 +3,7 @@ package it.orbyta.fabrick.service;
 import it.orbyta.fabrick.client.FabrickClient;
 import it.orbyta.fabrick.dto.request.moneyTransfer.MoneyTransferRequest;
 import it.orbyta.fabrick.dto.response.BalanceResponse;
+import it.orbyta.fabrick.dto.response.FabrickResponse;
 import it.orbyta.fabrick.dto.response.moneyTransfer.MoneyTransferResponse;
 import it.orbyta.fabrick.dto.response.transactions.TransactionsResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -28,8 +29,8 @@ public class AccountService {
     }
 
     @Transactional
-    public TransactionsResponse getTransactions(String accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
-        TransactionsResponse response = fabrickClient.getTransactions(accountId, fromAccountingDate, toAccountingDate);
+    public FabrickResponse<TransactionsResponse> getTransactions(String accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
+        FabrickResponse<TransactionsResponse> response = fabrickClient.getTransactions(accountId, fromAccountingDate, toAccountingDate);
         //persistTransactions(accountId, response);
         return response;
     }

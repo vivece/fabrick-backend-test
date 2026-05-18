@@ -28,15 +28,28 @@ class AccountControllerTest {
     void getBalance_shouldReturn200() throws Exception {
 
         String accountId = "1";
-
         BalanceResponse response = new BalanceResponse();
         response.setBalance(BigDecimal.valueOf(100));
 
-        Mockito.when(accountService.getBalance(accountId))
-                .thenReturn(response);
+        Mockito.when(accountService.getBalance(accountId)).thenReturn(response);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/accounts/" + accountId + "/balance"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.balance").value(100));
+
+        Mockito.verify(accountService, Mockito.times(1)).getBalance(accountId);
+    }
+
+    private String validMoneyTransferJson() {
+        return "{"
+                + "\"creditor\":{"
+                + "\"name\":\"Mario Rossi\","
+                + "\"account\":{\"accountCode\":\"IT23A0336844430152923804660\"}"
+                + "},"
+                + "\"description\":\"Bonifico test\","
+                + "\"currency\":\"EUR\","
+                + "\"amount\":1.00,"
+                + "\"executionDate\":\"2019-04-01\""
+                + "}";
     }
 }
