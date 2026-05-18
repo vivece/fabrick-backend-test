@@ -1,7 +1,6 @@
 package it.orbyta.fabrick.dto.response.moneyTransfer;
 
 import it.orbyta.fabrick.dto.request.moneyTransfer.Creditor;
-import it.orbyta.fabrick.dto.response.Amount;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,5 +31,5 @@ public class MoneyTransferResponse {
     private String feeAccountId;
     private Boolean hasTaxRelief;
     private List<Fee> fees;
-    
+
 }

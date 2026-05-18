@@ -1,11 +1,13 @@
-package it.orbyta.fabrick.dto.response;
+package it.orbyta.fabrick.dto.response.moneyTransfer;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 public class Amount {
     private BigDecimal debtorAmount;
     private String debtorCurrency;
