@@ -66,12 +66,5 @@ public class AccountController {
                                                                 @RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toAccountingDate) {
         return ResponseEntity.ok(accountService.getTransactions(accountId, fromAccountingDate, toAccountingDate));
     }
-    /*
-    @GetMapping("/{accountId}/transactions/stored")
-    @ApiOperation("Read stored account transactions")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 422, message = "Unprocessable Entity", response = Problem.class)
-    })
 
 }
