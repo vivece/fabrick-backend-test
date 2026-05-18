@@ -1,7 +1,7 @@
 package it.orbyta.fabrick.dto.custom_validators;
 
 import it.orbyta.fabrick.dto.request.moneyTransfer.TaxRelief;
-import it.orbyta.fabrick.dto.request.moneyTransfer.enumerations.TaxReliefType;
+import it.orbyta.fabrick.dto.enumerations.TaxReliefType;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

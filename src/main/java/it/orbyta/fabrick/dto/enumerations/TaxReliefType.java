@@ -1,4 +1,4 @@
-package it.orbyta.fabrick.dto.request.moneyTransfer.enumerations;
+package it.orbyta.fabrick.dto.enumerations;
 
 public enum TaxReliefType {
     I19R,

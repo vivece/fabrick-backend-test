@@ -11,7 +11,7 @@ public class ValidatorAccountImpl implements ConstraintValidator<ValidatorAccoun
 
     /**
      * Validates the account BIC requirement.
-     *
+     * <p>
      * If the account code is provided as an Iban, the BIC code is optional.
      * If the account code is not an IBAN, the BIC code is mandatory.
      *

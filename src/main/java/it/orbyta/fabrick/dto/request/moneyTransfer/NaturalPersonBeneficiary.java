@@ -1,7 +1,9 @@
 package it.orbyta.fabrick.dto.request.moneyTransfer;
 
-import lombok.*;
-import javax.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter

@@ -1,7 +1,8 @@
 package it.orbyta.fabrick.dto.request.moneyTransfer;
 
 import it.orbyta.fabrick.dto.custom_validators.ValidatorTaxRelief;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

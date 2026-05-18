@@ -3,8 +3,6 @@ package it.orbyta.fabrick.dto.response.moneyTransfer;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Size;
-
 @Getter
 @Setter
 public class Address {

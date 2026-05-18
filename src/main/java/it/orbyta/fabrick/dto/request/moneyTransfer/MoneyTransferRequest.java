@@ -2,7 +2,7 @@ package it.orbyta.fabrick.dto.request.moneyTransfer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import it.orbyta.fabrick.dto.custom_validators.ValidatorMoneyTransferRequest;
-import it.orbyta.fabrick.dto.request.moneyTransfer.enumerations.FeeType;
+import it.orbyta.fabrick.dto.enumerations.FeeType;
 import lombok.Getter;
 import lombok.Setter;
 
