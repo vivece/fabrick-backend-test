@@ -36,7 +36,7 @@ public class AccountController {
             @ApiResponse(code = 422, message = "Unprocessable Entity", response = Problem.class),
             @ApiResponse(code = 502, message = "Bad Gateway", response = Problem.class)
     })
-    public ResponseEntity<BalanceResponse> getBalance(@PathVariable @NotNull String accountId) {
+    public ResponseEntity<FabrickResponse<BalanceResponse>> getBalance(@PathVariable @NotNull String accountId) {
         return ResponseEntity.ok(accountService.getBalance(accountId));
     }
 
@@ -48,8 +48,8 @@ public class AccountController {
             @ApiResponse(code = 422, message = "Unprocessable Entity", response = Problem.class),
             @ApiResponse(code = 502, message = "Bad Gateway", response = Problem.class)
     })
-    public ResponseEntity<MoneyTransferResponse> createMoneyTransfer(@PathVariable @NotNull String accountId,
-                                                                     @RequestBody @Valid @NotNull MoneyTransferRequest request) {
+    public ResponseEntity<FabrickResponse<MoneyTransferResponse>> createMoneyTransfer(@PathVariable @NotNull String accountId,
+                                                                                     @RequestBody @Valid @NotNull MoneyTransferRequest request) {
         return ResponseEntity.ok(accountService.createMoneyTransfer(accountId, request));
     }
 

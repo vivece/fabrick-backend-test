@@ -1,5 +1,6 @@
 package it.orbyta.fabrick.dto.request.moneyTransfer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LegalPersonBeneficiary {
 
     @NotBlank

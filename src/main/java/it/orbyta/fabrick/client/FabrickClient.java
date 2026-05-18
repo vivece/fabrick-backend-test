@@ -33,25 +33,26 @@ public class FabrickClient {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public BalanceResponse getBalance(String accountId) {
+    public FabrickResponse<BalanceResponse> getBalance(String accountId) {
         log.info("Calling Fabrick getBalance. accountId={}", accountId);
         String url = getBaseUrl() + "/accounts/" + accountId + "/balance";
         try {
             HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
-            ResponseEntity<BalanceResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
-            });
+            ResponseEntity<FabrickResponse<BalanceResponse>> responseEntity = restTemplate.exchange(
+                    url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<FabrickResponse<BalanceResponse>>() {});
             return responseEntity.getBody();
         } catch (HttpStatusCodeException ex) {
             throw buildFabrickApiException(ex);
         }
     }
 
-    public MoneyTransferResponse createMoneyTransfer(String accountId, MoneyTransferRequest request) {
+    public FabrickResponse<MoneyTransferResponse> createMoneyTransfer(String accountId, MoneyTransferRequest request) {
         log.info("Calling Fabrick createMoneyTransfer");
         String url = getBaseUrl() + "/accounts/" + accountId + "/payments/money-transfers";
         try {
             HttpEntity<Object> httpEntity = new HttpEntity<>(request, buildHeaders());
-            ResponseEntity<MoneyTransferResponse> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {});
+            ResponseEntity<FabrickResponse<MoneyTransferResponse>> responseEntity = restTemplate.exchange(
+                    url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<FabrickResponse<MoneyTransferResponse>>() {});
             return responseEntity.getBody();
         } catch (HttpStatusCodeException ex) {
             throw buildFabrickApiException(ex);
@@ -67,7 +68,7 @@ public class FabrickClient {
                 .toUriString();
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
-        ResponseEntity<FabrickResponse<TransactionsResponse>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {});
+        ResponseEntity<FabrickResponse<TransactionsResponse>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<FabrickResponse<TransactionsResponse>>() {});
 
         return responseEntity.getBody();
     }

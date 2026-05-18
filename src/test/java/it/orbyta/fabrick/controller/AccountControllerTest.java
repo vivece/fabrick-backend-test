@@ -1,6 +1,7 @@
 package it.orbyta.fabrick.controller;
 
 import it.orbyta.fabrick.dto.response.BalanceResponse;
+import it.orbyta.fabrick.dto.response.FabrickResponse;
 import it.orbyta.fabrick.service.AccountService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -26,16 +27,21 @@ class AccountControllerTest {
 
     @Test
     void getBalance_shouldReturn200() throws Exception {
-
         String accountId = "1";
-        BalanceResponse response = new BalanceResponse();
-        response.setBalance(BigDecimal.valueOf(100));
+
+        BalanceResponse balanceResponse = new BalanceResponse();
+        balanceResponse.setBalance(BigDecimal.valueOf(100));
+
+        FabrickResponse<BalanceResponse> response = new FabrickResponse<>();
+        response.setStatus("OK");
+        response.setPayload(balanceResponse);
 
         Mockito.when(accountService.getBalance(accountId)).thenReturn(response);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/accounts/" + accountId + "/balance"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.balance").value(100));
+                .andExpect(jsonPath("$.status").value("OK"))
+                .andExpect(jsonPath("$.payload.balance").value(100));
 
         Mockito.verify(accountService, Mockito.times(1)).getBalance(accountId);
     }

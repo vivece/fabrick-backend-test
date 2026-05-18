@@ -1,5 +1,6 @@
 package it.orbyta.fabrick.dto.request.moneyTransfer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import it.orbyta.fabrick.dto.custom_validators.ValidatorTaxRelief;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Pattern;
 
 @Setter
 @Getter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @ValidatorTaxRelief
 public class TaxRelief {
 

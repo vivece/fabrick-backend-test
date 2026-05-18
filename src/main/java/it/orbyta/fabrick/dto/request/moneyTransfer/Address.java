@@ -1,5 +1,6 @@
 package it.orbyta.fabrick.dto.request.moneyTransfer;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import it.orbyta.fabrick.dto.custom_validators.ValidatorAddress;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @ValidatorAddress(message = "The country code of the creditor must be compliant to ISO")
 public class Address {
 

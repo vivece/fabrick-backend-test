@@ -1,6 +1,7 @@
 package it.orbyta.fabrick.dto.request.moneyTransfer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import it.orbyta.fabrick.dto.custom_validators.ValidatorMoneyTransferRequest;
 import it.orbyta.fabrick.dto.enumerations.FeeType;
 import lombok.Getter;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @ValidatorMoneyTransferRequest(message = "executionDate is required when isInstant is false")
 public class MoneyTransferRequest {
 
