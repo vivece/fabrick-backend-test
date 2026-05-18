@@ -66,7 +66,6 @@ public class AccountController {
                                                                 @RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toAccountingDate) {
         return ResponseEntity.ok(accountService.getTransactions(accountId, fromAccountingDate, toAccountingDate));
     }
-
     /*
     @GetMapping("/{accountId}/transactions/stored")
     @ApiOperation("Read stored account transactions")
