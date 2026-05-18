@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidatorMoneyTransferRequest {
-    String message() default "money transfer request non valida";
+    String message() default "invalid money transfer request";
 
     Class<?>[] groups() default {};
 

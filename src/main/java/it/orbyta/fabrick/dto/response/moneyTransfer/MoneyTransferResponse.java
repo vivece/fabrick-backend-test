@@ -1,6 +1,5 @@
 package it.orbyta.fabrick.dto.response.moneyTransfer;
 
-import it.orbyta.fabrick.dto.request.moneyTransfer.Creditor;
 import lombok.Getter;
 import lombok.Setter;
 

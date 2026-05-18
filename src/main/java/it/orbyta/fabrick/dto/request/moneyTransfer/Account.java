@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ValidatorAccount(message = "bicCode is required when accountCode is an not an Iban")
+@ValidatorAccount(message = "bicCode is required when accountCode is not an IBAN")
 public class Account {
     @NotBlank(message = "creditor.account.accountCode is required")
     private String accountCode;

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "account_transactions")
+@Table(name = "transaction")
 public class TransactionEntity {
 
     @Id

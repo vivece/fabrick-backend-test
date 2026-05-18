@@ -6,10 +6,12 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:h2:mem:fabrickdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:fabrickdb;
+          DB_CLOSE_DELAY=-1;
+          DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    username: fabrick
+    password: fabrick
   h2:
     console:
       enabled: true
@@ -30,7 +32,7 @@ logging:
 fabrick:
   base-url: https://sandbox.platfr.io
   auth-schema: S2S
-  api-key: ${FABRICK_API_KEY:FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP}
+  api-key: FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP
   account-id: 14537780
   api-version: v4.0
   time-zone: Europe/Rome
