@@ -8,6 +8,7 @@ import it.orbyta.fabrick.dto.response.BalanceResponse;
 import it.orbyta.fabrick.dto.response.FabrickResponse;
 import it.orbyta.fabrick.dto.response.moneyTransfer.MoneyTransferResponse;
 import it.orbyta.fabrick.dto.response.transactions.TransactionsResponse;
+import it.orbyta.fabrick.entity.TransactionEntity;
 import it.orbyta.fabrick.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,6 +20,7 @@ import org.zalando.problem.Problem;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/accounts")
@@ -64,7 +66,17 @@ public class AccountController {
     public ResponseEntity<FabrickResponse<TransactionsResponse>> getTransactions(@PathVariable @NotNull String accountId,
                                                                                  @RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromAccountingDate,
                                                                                  @RequestParam @NotNull @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toAccountingDate) {
-        return ResponseEntity.ok(accountService.getTransactions(accountId, fromAccountingDate, toAccountingDate));
+        return ResponseEntity.ok(accountService.getAndStoreTransactions(accountId, fromAccountingDate, toAccountingDate));
+    }
+
+    @GetMapping("/{accountId}/transactions/stored")
+    @ApiOperation("Read stored account transactions")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 422, message = "Unprocessable Entity", response = Problem.class)
+    })
+    public ResponseEntity<List<TransactionEntity>> getStoredTransactions(@PathVariable @NotNull String accountId) {
+        return ResponseEntity.ok(accountService.getStoredTransactions(accountId));
     }
 
 }
