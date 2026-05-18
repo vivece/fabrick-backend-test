@@ -66,7 +66,7 @@ public class FabrickClient {
                 .toUriString();
 
         HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
-        ResponseEntity<TransactionsResponse> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {});
+        ResponseEntity<TransactionsResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {});
 
         return responseEntity.getBody();
     }
