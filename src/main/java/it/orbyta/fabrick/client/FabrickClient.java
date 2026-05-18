@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.orbyta.fabrick.config.FabrickProperties;
 import it.orbyta.fabrick.dto.request.moneyTransfer.MoneyTransferRequest;
 import it.orbyta.fabrick.dto.response.BalanceResponse;
+import it.orbyta.fabrick.dto.response.transactions.TransactionsResponse;
 import it.orbyta.fabrick.dto.response.moneyTransfer.MoneyTransferResponse;
 import it.orbyta.fabrick.exception.FabrickApiException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDate;
 import java.util.Collections;
 
 @Slf4j
@@ -52,6 +55,20 @@ public class FabrickClient {
         } catch (HttpStatusCodeException ex) {
             throw buildFabrickApiException(ex);
         }
+    }
+
+
+    public TransactionsResponse getTransactions(String accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
+        log.info("Calling Fabrick getTransactions fromAccountingDate={}, toAccountingDate={}", fromAccountingDate, toAccountingDate);
+        String url = UriComponentsBuilder.fromHttpUrl(getBaseUrl() + "/accounts/" + accountId + "/transactions")
+                .queryParam("fromAccountingDate", fromAccountingDate)
+                .queryParam("toAccountingDate", toAccountingDate)
+                .toUriString();
+
+        HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
+        ResponseEntity<TransactionsResponse> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {});
+
+        return responseEntity.getBody();
     }
 
     private String getBaseUrl() {
