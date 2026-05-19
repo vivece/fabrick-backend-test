@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -41,17 +42,22 @@ public class AccountService {
         return transactionResponse;
     }
 
+    public List<TransactionEntity> getStoredTransactions(String accountId) {
+        return transactionRepository.findByAccountIdOrderByAccountingDateDesc(accountId);
+    }
+
     private void saveTransactions(String accountId, FabrickResponse<TransactionsResponse> transactionsResponse) {
         if (transactionsResponse == null || transactionsResponse.getPayload() == null) {
             return;
         }
 
-        for (Transaction transaction : transactionsResponse.getPayload().getList()) {
-            String transactionId = transaction.getTransactionId();
-            if (transactionId == null || !transactionRepository.existsByAccountIdAndTransactionId(accountId, transactionId)) {
-                transactionRepository.save(buildEntity(accountId, transaction));
-            }
-        }
+        transactionsResponse.getPayload().getList().stream()
+                .filter(transaction -> transaction.getTransactionId() != null)
+                .filter(transaction -> !transactionRepository.existsByAccountIdAndTransactionId(accountId, transaction.getTransactionId()))
+                .forEach(transaction -> {
+                    TransactionEntity entity = buildEntity(accountId, transaction);
+                    transactionRepository.save(entity);
+                });
     }
 
     private TransactionEntity buildEntity(String accountId, Transaction transaction) {
@@ -70,10 +76,6 @@ public class AccountService {
             entity.setTypeValue(transaction.getTransactionInfo().getValue());
         }
         return entity;
-    }
-
-    public List<TransactionEntity> getStoredTransactions(String accountId) {
-        return transactionRepository.findByAccountIdOrderByAccountingDateDesc(accountId);
     }
 
 }
