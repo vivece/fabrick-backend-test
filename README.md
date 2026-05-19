@@ -4,7 +4,7 @@ Progetto Spring Boot Java 17 per il test backend Fabrick/Orbyta.
 
 ## Stack
 
-- Java 11
+- Java Version 17
 - Spring Boot 2.7.18
 - RestTemplate per chiamate sincrone cross-service
 - Spring Validation (Bean Validation + custom ConstraintValidator)
