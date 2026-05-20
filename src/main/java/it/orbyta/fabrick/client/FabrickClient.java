@@ -7,13 +7,11 @@ import it.orbyta.fabrick.dto.response.BalanceResponse;
 import it.orbyta.fabrick.dto.response.FabrickResponse;
 import it.orbyta.fabrick.dto.response.moneyTransfer.MoneyTransferResponse;
 import it.orbyta.fabrick.dto.response.transactions.TransactionsResponse;
-import it.orbyta.fabrick.exception.FabrickApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -36,27 +34,18 @@ public class FabrickClient {
     public FabrickResponse<BalanceResponse> getBalance(String accountId) {
         log.info("Calling Fabrick getBalance. accountId={}", accountId);
         String url = getBaseUrl() + "/accounts/" + accountId + "/balance";
-        try {
-            HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
-            ResponseEntity<FabrickResponse<BalanceResponse>> responseEntity = restTemplate.exchange(
-                    url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<FabrickResponse<BalanceResponse>>() {});
-            return responseEntity.getBody();
-        } catch (HttpStatusCodeException ex) {
-            throw buildFabrickApiException(ex);
-        }
+        HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
+        ResponseEntity<FabrickResponse<BalanceResponse>> responseEntity = restTemplate.exchange(
+                url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<FabrickResponse<BalanceResponse>>() {});
+        return responseEntity.getBody();
     }
 
     public FabrickResponse<MoneyTransferResponse> createMoneyTransfer(String accountId, MoneyTransferRequest request) {
         log.info("Calling Fabrick createMoneyTransfer");
         String url = getBaseUrl() + "/accounts/" + accountId + "/payments/money-transfers";
-        try {
-            HttpEntity<Object> httpEntity = new HttpEntity<>(request, buildHeaders());
-            ResponseEntity<FabrickResponse<MoneyTransferResponse>> responseEntity = restTemplate.exchange(
-                    url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<FabrickResponse<MoneyTransferResponse>>() {});
-            return responseEntity.getBody();
-        } catch (HttpStatusCodeException ex) {
-            throw buildFabrickApiException(ex);
-        }
+        HttpEntity<Object> httpEntity = new HttpEntity<>(request, buildHeaders());
+        ResponseEntity<FabrickResponse<MoneyTransferResponse>> responseEntity = restTemplate.exchange(url, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<FabrickResponse<MoneyTransferResponse>>() {});
+        return responseEntity.getBody();
     }
 
 
@@ -66,10 +55,8 @@ public class FabrickClient {
                 .queryParam("fromAccountingDate", fromAccountingDate)
                 .queryParam("toAccountingDate", toAccountingDate)
                 .toUriString();
-
         HttpEntity<Object> httpEntity = new HttpEntity<>(null, buildHeaders());
         ResponseEntity<FabrickResponse<TransactionsResponse>> responseEntity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, new ParameterizedTypeReference<FabrickResponse<TransactionsResponse>>() {});
-
         return responseEntity.getBody();
     }
 
@@ -87,8 +74,4 @@ public class FabrickClient {
         return headers;
     }
 
-    private FabrickApiException buildFabrickApiException(HttpStatusCodeException ex) {
-        HttpStatus status = ex.getStatusCode();
-        return new FabrickApiException(status, "FABRICK_HTTP_" + status.value(), ex.getResponseBodyAsString());
-    }
 }

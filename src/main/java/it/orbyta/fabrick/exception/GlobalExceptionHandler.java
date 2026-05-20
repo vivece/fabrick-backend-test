@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.ResourceAccessException;
 import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
 
@@ -38,15 +40,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problem);
     }
 
-    @ExceptionHandler(FabrickApiException.class)
-    public ResponseEntity<Problem> handleFabrickApiException(FabrickApiException ex) {
-        log.warn("Fabrick API returned an error. code={}, description={}", ex.getCode(), ex.getDescription());
-        HttpStatus status = ex.getHttpStatus();
-        if (status == null || status.is5xxServerError()) {
-            status = HttpStatus.BAD_GATEWAY;
-        }
-        Problem problem = buildProblem(status, ex.getDescription());
+    @ExceptionHandler(HttpStatusCodeException.class)
+    public ResponseEntity<Problem> handleFabrickClientException(HttpStatusCodeException ex) {
+        HttpStatus status = ex.getStatusCode();
+        log.warn("Fabrick API returned an error. code={}, description={}", status.value(), ex.getResponseBodyAsString());
+        Problem problem = buildProblem(status, ex.getResponseBodyAsString());
         return ResponseEntity.status(status).body(problem);
+    }
+
+    @ExceptionHandler(ResourceAccessException.class)
+    public ResponseEntity<Problem> handleTimeout(ResourceAccessException ex) {
+        Problem problem = buildProblem(HttpStatus.GATEWAY_TIMEOUT, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).body(problem);
     }
 
     private Problem buildProblem(HttpStatus status, String errorMessage) {

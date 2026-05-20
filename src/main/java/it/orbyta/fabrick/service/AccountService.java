@@ -1,6 +1,7 @@
 package it.orbyta.fabrick.service;
 
 import it.orbyta.fabrick.client.FabrickClient;
+import it.orbyta.fabrick.dto.enumerations.MoneyTransferStatusType;
 import it.orbyta.fabrick.dto.request.moneyTransfer.MoneyTransferRequest;
 import it.orbyta.fabrick.dto.response.BalanceResponse;
 import it.orbyta.fabrick.dto.response.FabrickResponse;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,7 +34,34 @@ public class AccountService {
     }
 
     public FabrickResponse<MoneyTransferResponse> createMoneyTransfer(String accountId, MoneyTransferRequest request) {
-        return fabrickClient.createMoneyTransfer(accountId, request);
+        try {
+            return fabrickClient.createMoneyTransfer(accountId, request);
+        } catch (ResourceAccessException ex) {
+             return validationEnquiry(accountId, request, ex);
+        }
+    }
+
+    private FabrickResponse<MoneyTransferResponse> validationEnquiry(String accountId, MoneyTransferRequest request, ResourceAccessException ex) {
+        log.warn("Performing validation enquiry for accountId={}", accountId);
+        LocalDate today = request.getExecutionDate();
+        FabrickResponse<TransactionsResponse> transactions = fabrickClient.getTransactions(accountId, today, today);
+        if (transactions != null && transactions.getPayload() != null) {
+            boolean found = transactions.getPayload().getList().stream().anyMatch(tx -> matchesTransfer(tx, request));
+            if (found) {
+                log.warn("Validation enquiry found a matching transaction: money transfer was already executed. accountId={}", accountId);
+                FabrickResponse<MoneyTransferResponse> alreadyExecuted = new FabrickResponse<>();
+                alreadyExecuted.setStatus(MoneyTransferStatusType.EXECUTED.name());
+                return alreadyExecuted;
+            }
+        }
+        throw ex;
+    }
+
+    private boolean matchesTransfer(Transaction tx, MoneyTransferRequest request) {
+        boolean amountMatch = tx.getAmount() != null && request.getAmount() != null && tx.getAmount().abs().compareTo(request.getAmount()) == 0;
+        boolean currencyMatch = request.getCurrency() != null && request.getCurrency().equals(tx.getCurrency());
+        boolean descriptionMatch = tx.getDescription() != null && request.getDescription() != null && tx.getDescription().equals(request.getDescription());
+        return amountMatch && currencyMatch && descriptionMatch;
     }
 
     @Transactional

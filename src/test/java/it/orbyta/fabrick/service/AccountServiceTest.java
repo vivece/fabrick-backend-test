@@ -6,13 +6,13 @@ import it.orbyta.fabrick.dto.response.BalanceResponse;
 import it.orbyta.fabrick.dto.response.FabrickResponse;
 import it.orbyta.fabrick.dto.response.moneyTransfer.*;
 import it.orbyta.fabrick.dto.response.transactions.TransactionsResponse;
-import it.orbyta.fabrick.exception.FabrickApiException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -113,12 +113,12 @@ class AccountServiceTest {
         LocalDate from = LocalDate.of(2019, 1, 1);
         LocalDate to = LocalDate.of(2019, 12, 31);
 
-        FabrickApiException ex = new FabrickApiException(HttpStatus.INTERNAL_SERVER_ERROR, "FABRICK_HTTP_500", "Server error");
+        HttpServerErrorException ex = new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR);
         when(fabrickClient.getTransactions(accountId, from, to)).thenThrow(ex);
 
-        FabrickApiException exceptionThrown = assertThrows(FabrickApiException.class, () -> accountService.getAndStoreTransactions(accountId, from, to));
-        assertEquals("Server error", exceptionThrown.getMessage());
-        assertEquals(500, exceptionThrown.getHttpStatus().value());
+        HttpServerErrorException exceptionThrown = assertThrows(HttpServerErrorException.class, () -> accountService.getAndStoreTransactions(accountId, from, to));
+        assertEquals("500 INTERNAL_SERVER_ERROR", exceptionThrown.getMessage());
+        assertEquals(500, exceptionThrown.getStatusCode().value());
     }
 
     private <T> FabrickResponse<T> buildFabrickResponse(T payload) {
