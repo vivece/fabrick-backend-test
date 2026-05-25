@@ -10,7 +10,7 @@ import it.orbyta.fabrick.dto.response.moneyTransfer.MoneyTransferResponse;
 import it.orbyta.fabrick.dto.response.transactions.TransactionsResponse;
 import it.orbyta.fabrick.entity.TransactionEntity;
 import it.orbyta.fabrick.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,10 +25,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/accounts")
 @Validated
+@RequiredArgsConstructor
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @GetMapping("/{accountId}/balance")
     @ApiOperation("Read account balance")

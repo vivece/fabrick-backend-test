@@ -6,9 +6,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:h2:mem:fabrickdb;
-          DB_CLOSE_DELAY=-1;
-          DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:fabrickdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
     username: fabrick
     password: fabrick
@@ -36,3 +34,11 @@ fabrick:
   account-id: 14537780
   api-version: v4.0
   time-zone: Europe/Rome
+#Lasciate in chiaro per semplicità test, si può creare un file .env o environment variables
+  #fabrick:
+   # base-url: ${FABRICK_BASE_URL:https://sandbox.platfr.io}
+    #auth-schema: ${FABRICK_AUTH_SCHEMA:S2S}
+    #api-key: ${FABRICK_API_KEY}
+    #account-id: ${FABRICK_ACCOUNT_ID}
+    #api-version: ${FABRICK_API_VERSION:v4.0}
+    #time-zone: ${FABRICK_TIME_ZONE:Europe/Rome}

@@ -10,8 +10,8 @@ import it.orbyta.fabrick.dto.response.transactions.Transaction;
 import it.orbyta.fabrick.dto.response.transactions.TransactionsResponse;
 import it.orbyta.fabrick.entity.TransactionEntity;
 import it.orbyta.fabrick.repository.TransactionRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.ResourceAccessException;
@@ -21,13 +21,11 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AccountService {
 
-    @Autowired
-    private FabrickClient fabrickClient;
-
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final FabrickClient fabrickClient;
+    private final TransactionRepository transactionRepository;
 
     public FabrickResponse<BalanceResponse> getBalance(String accountId) {
         return fabrickClient.getBalance(accountId);
@@ -64,7 +62,6 @@ public class AccountService {
         return amountMatch && currencyMatch && descriptionMatch;
     }
 
-    @Transactional
     public FabrickResponse<TransactionsResponse> getAndStoreTransactions(String accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
         FabrickResponse<TransactionsResponse> transactionResponse = fabrickClient.getTransactions(accountId, fromAccountingDate, toAccountingDate);
         saveTransactions(accountId, transactionResponse);
@@ -75,6 +72,7 @@ public class AccountService {
         return transactionRepository.findByAccountIdOrderByAccountingDateDesc(accountId);
     }
 
+    @Transactional
     private void saveTransactions(String accountId, FabrickResponse<TransactionsResponse> transactionsResponse) {
         if (transactionsResponse == null || transactionsResponse.getPayload() == null) {
             return;

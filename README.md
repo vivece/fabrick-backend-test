@@ -16,16 +16,6 @@ Progetto Spring Boot Java 17 per il test backend Fabrick/Orbyta.
 
 Le proprietà sono in `src/main/resources/application.yml`.
 
-```canfiguration properties into file yaml
-fabrick:
-  base-url: https://sandbox.platfr.io
-  auth-schema: S2S
-  api-key: FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP
-  account-id: 14537780
-  api-version: v4.0
-  time-zone: Europe/Rome
-```
-
 ## Endpoint applicativi
 
 Tutte le risposte sono wrappate in `FabrickResponse<T>`:
@@ -34,7 +24,7 @@ Tutte le risposte sono wrappate in `FabrickResponse<T>`:
 {
   "status": "OK",
   "errors": [],
-  "payload": { ... }
+  "payload": {}
 }
 ```
 
@@ -58,8 +48,4 @@ http://localhost:8080/h2-console
 url connection: jdbc:h2:mem:fabrickdb;
 ```
 
-## Test
 
-```bash
-mvn test
-```

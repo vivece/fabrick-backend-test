@@ -1,14 +1,13 @@
 package it.orbyta.fabrick.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.orbyta.fabrick.config.FabrickProperties;
 import it.orbyta.fabrick.dto.request.moneyTransfer.MoneyTransferRequest;
 import it.orbyta.fabrick.dto.response.BalanceResponse;
 import it.orbyta.fabrick.dto.response.FabrickResponse;
 import it.orbyta.fabrick.dto.response.moneyTransfer.MoneyTransferResponse;
 import it.orbyta.fabrick.dto.response.transactions.TransactionsResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -20,16 +19,11 @@ import java.util.Collections;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class FabrickClient {
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private FabrickProperties fabrickProperties;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+    private final RestTemplate restTemplate;
+    private final FabrickProperties fabrickProperties;
 
     public FabrickResponse<BalanceResponse> getBalance(String accountId) {
         log.info("Calling Fabrick getBalance. accountId={}", accountId);
